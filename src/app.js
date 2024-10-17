@@ -15,11 +15,13 @@ const {
     MONGO_URL = "mongodb://localhost:27017/mydb"
  } = process.env;
 
-mongoose.connect(MONGO_URL, error => {
-    if (error) throw error;
-    console.log('Connected to MongoDb');
-})
-
+mongoose.connect(MONGO_URL)
+    .then(() => {
+        console.log('Connected to MongoDb');
+    })
+    .catch(error => {
+        console.error('Error connecting to MongoDB', error);
+    })
 
 const app = express();
 

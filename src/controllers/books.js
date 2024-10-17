@@ -9,7 +9,7 @@ const getBooks = (request, response) => {
 };
 
 const getBook = (request, response) => {
-    const { bookid } = request.params;
+    const { book_id } = request.params;
     return Book.findById(book_id)
         .then((book) => {
             response.status(200).send(book);

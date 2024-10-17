@@ -13,24 +13,30 @@ const getUsers = (request, response) => {
 const getUser = (request, response) => {
     //Get user
     const { user_id } = request.params;
-    response.status(200);
-    response.send(`User with id: ${user_id}`);
-
+    User.findById(user_id)
+        .then(user => {
+            if (!user) {
+                return response.status(404).json({ message: "User not found" });
+            } response.status(200).join(user);
+        })
+        .catch(error => {
+            response.status(500).json({ message: error.message })
+        })
 };
 
 const createUser = (request, response) => {
     //Create user
     const newUser = new User({
-        firstName: request.body.firstName,
+        name: request.body.name,
         lastName: request.body.lastName,
         username: request.body.username
     });
     newUser.save()
         .then(savedUser => {
-            response.status(201).json(savedUser); 
+            response.status(201).json(savedUser);
         })
         .catch(error => {
-            response.status(400).json({ message: error.message }); 
+            response.status(400).json({ message: error.message });
         });
 };
 
